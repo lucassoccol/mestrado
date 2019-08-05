@@ -1,81 +1,55 @@
-#!/usr/bin/python
-#coding: utf-8
+#!/usr/bin/env python3
 
 from itertools import combinations
 
+item = [[4,12], [2,2], [1,1], [10,4], [2,1]]
+precos = [4, 2, 1, 10, 2]
+pesos  = [12, 2, 1, 4, 1]
+bolsa = []
+s = 0
+c = 0
+cm = 0
+pesomax = 15
 
+combinado = []
 
-# problema da mochila
-# colocar o máximo de valor dentro da mochila
+# combina os itens
+for i in range (2, len(item)+1):
+    for j in combinations(item,i):
+        combinado.append(j)
 
-def organiza (peso, valor, custo):
-	for i in range (len(custo)):
-		if i < len(custo)-1:
-			# verifica se o custo é menor
-			if (custo[i] < custo[i+1]):
-				# salva o valor do indice em uma variavel
-				auxV = valor [i]
-				auxP = peso  [i]
-				auxC = custo [i]
+# for x in combinado:
+#     print (x)
 
-				#troca o valor do indice para o valor subsequente
-				valor[i] = valor[i+1]
-				peso [i] = peso [i+1]
-				custo[i] = custo[i+1]
+# coloca na bolsa os que pesam ate 15kg
+for i in range(len(combinado)):
+    for j in range(len(combinado[i])):
+        for k in range(len(combinado[j])):
+            # print ("linha: ", i, "grupo: ", j, "elemento: ", k, "valor: ", combinado[i][j][k])
+            if k == 1:
+                s += combinado[i][j][k]
+    # print(s)
+    if s <= pesomax :
+        bolsa.append(combinado[i])
+    s = 0    
 
-				#valor subsequente recebe os valores maiores
-				valor[i+1] = auxV
-				peso [i+1] = auxP
-				custo[i+1] = auxC
+# avalia os que possuem o melhor custo
+for i in range(len(bolsa)):
+    for j in range(len(bolsa[i])):
+        for k in range(len(bolsa[j])):
+            if k == 0:
+                c += bolsa[i][j][k]
+    if c > cm :
+        cm = i
+    c = 0
 
-				organiza(peso, valor, custo)
+print (item)
 
+print ("combinacao com maior valor: ",bolsa[cm])
 
-
-def geracusto (peso, valor):
-	custo = []
-	for i in range (len(peso)):
-		custo.append(valor[i]/peso[i])
-	return custo
-
-def poenabolsa (peso, custo, mochila):
- 	pesomax = mochila
- 	pesoacu = 0
- 	for i in range (len(custo)-1):
- 		if pesoacu <= pesomax:
- 			pesoacu = pesoacu + peso[i]
-
-
-
-
-def main():
-	mochila = 15
-	itens = [[12,4], [2,2], [1,1], [4,10], [1,2]]
-	peso  = [12, 2, 1, 4, 1]
-	valor = [4, 2, 1, 10, 2]
-	custo = []
-	combinado = []
-
-	for i in range (len(itens)+1):
-		if i >= 2:
-			combinado.append = combinations(itens, i)
-
-	print (combinado)
-	custo = geracusto (peso, valor)
-
-	print (peso)
-	print (valor)
-	print (custo)
-	print ("")
-
-	organiza(peso, valor, custo)
-
-	print (peso)
-	print (valor)
-	print (custo)
-
-
-main()
-
-
+# print (len(combinado[25]))
+# print (combinado[25]) = ([4, 12], [2, 2], [1, 1], [10, 4], [2, 1])
+# print (combinado[25][0]) = [4, 12]
+# print (combinado[25][0][0]) = 4
+# print (combinado[25][0][1]) = 12
 
