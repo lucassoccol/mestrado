@@ -1,4 +1,5 @@
 import numpy as np
+from bisect import bisect
 
 cidades = {'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6, 'h': 7, 'i': 8, 'j': 9}
 
@@ -50,8 +51,24 @@ def calcula_probabilidades(feromonios_totais, custos_totais):
     return ((feromonios_totais ** alpha) * (n ** betta)) / total
 
 
+def roleta(probalidades, argsort):
+    numero_aleatorio = np.random.rand()
+    print(f'numero aleatorio {numero_aleatorio}')
+    soma_acumulada = np.cumsum(probalidades)
+    print(f'soma acumulada {soma_acumulada}')
+    posicao = bisect(soma_acumulada, numero_aleatorio)
+    print(f'posicao {argsort[posicao]}')
+    return argsort[posicao]
+
+
 feromonios = np.array([1, 1, 1])
 custos = np.array([1, 15, 4])
 
-
-print(calcula_probabilidades(feromonios, custos))
+#print(calcula_probabilidades(feromonios, custos))
+b = np.array([0.75949367, 0.05063291, 0.18987342])
+print(b)
+a = np.sort(b)
+print(a)
+c = np.argsort(b)
+print(c)
+roleta(a, c)
