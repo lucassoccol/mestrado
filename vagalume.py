@@ -1,5 +1,6 @@
 from itertools import permutations
 import random
+import math
 
 cidades = {'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6, 'h': 7, 'i': 8, 'j': 9}
 
@@ -21,12 +22,11 @@ distancias = """
 aux = [x.split() for x in distancias.splitlines()[1:]]
 matriz = [[int(j) for j in vetor] for vetor in aux]
 
-#numero de variaveis de projeto
-n_var = 1
 n_vagalumes = 5
 vagalumes = []
+absorcao = 0.1
 
-v = ['b', 'c', 'd', 'e', 'f', 'g']
+v = ['b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
 def retorna_custo(sequencia):
     custo = 0
@@ -52,13 +52,11 @@ def gera_vagalumes (qtde):
 #gera uma população otimizada com custo max e min
 def gen_vag_otm (qtd, c_max, c_min):
     aleatorio = []
-    for i in range (qtd):
-        bo = True
-        while bo == True:
-            aux = gen_vag()
-            if (retorna_custo(aux) < c_max) and (retorna_custo(aux) > c_min):
-                aleatorio.append(aux)
-                bo = False
+    for i in range (math.factorial(len(v)-1)):
+        aux = gen_vag()
+        if (retorna_custo(aux) <= c_max) and (retorna_custo(aux) >= c_min):
+            aleatorio.append(aux)
+            break
     return aleatorio
 
 #retorno o indice com menor custo
@@ -72,53 +70,31 @@ def min_vag (vetor):
 def compara_vagalumes (vetor):
     for i in range(len(vetor)):
         for j in range(len(vetor)):
+            diferenca = abs(retorna_custo(vetor[j]) - retorna_custo(vetor[i]))
+            atratividade = absorcao * diferenca
             if retorna_custo(vetor[i]) > retorna_custo(vetor[j]):
                 #mova i para j 
-                dif = retorna_custo(vetor[j]) - retorna_custo(vetor[i])
-                fat_at = 0.1
-                #valor_prox = retorna_custo(vetor[i]+(dif / fat_at))
-
-                aleatorio = gen_vag_otm(n_vagalumes, retorna_custo(vetor[i]), retorna_custo(vetor[j]))
-
-                vetor[i] = aleatorio[min_vag(aleatorio)]
-
-                '''
-                for a in aleatorio:
-                    print(a, ': ', retorna_custo(a))
-
-                print(retorna_custo(aleatorio[min_vag(aleatorio)]))
-
-                print('i antes', vetor[i], retorna_custo(vetor[i]))
-                vetor[i] = aleatorio[min_vag(aleatorio)]
-                print('i depois', vetor[i], retorna_custo(vetor[i]))
-
-                print('----------')
-                '''
-    
+                aleatorio = gen_vag_otm(1, retorna_custo(vetor[i]), retorna_custo(vetor[i])-atratividade)            
+                if aleatorio:
+                    vetor[i] = aleatorio[0]
+            else:
+                aleatorio = gen_vag_otm(1, retorna_custo(vetor[i]), retorna_custo(vetor[i])-atratividade)
+                if aleatorio:
+                    vetor[i] = aleatorio[0]
 
 def main():
     vagalumes = gera_vagalumes(n_vagalumes)
+
     for v in vagalumes:
         print(v, "-- custo: ", retorna_custo(v))
-
-    #min_vag(vagalumes)
-    #print(vagalumes[min_vag(vagalumes)], retorna_custo(vagalumes[min_vag(vagalumes)]))    
     
-    compara_vagalumes(vagalumes)
-
-    for v in vagalumes:
-        print(v, "-- custo: ", retorna_custo(v))
-
-        
+    for i in range (10):
+        compara_vagalumes(vagalumes)
+        print('-----------------------------', i+1, 'loop -----------------------------------')
+        for v in vagalumes:
+            print(v, "-- custo: ", retorna_custo(v))
+ 
 main()
-
-#proximo passo encontrar a menor diferenca no aleatorio e fazer vagalume ir ate ela.
-
-
-
-
-
-
 
 
 
