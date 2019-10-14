@@ -66,6 +66,21 @@ def min_vag (vetor):
         custo.append(retorna_custo(v))
     return custo.index(min(custo))
 
+#troca posicao no vetor
+def change (vetor, posa, posb):
+    aux = vetor[posa]
+    vetor[posa] = vetor[posb]
+    vetor[posb] = aux
+
+#faz os swap para igualar os vetores
+def _swap(vetora, vetorb):
+    sc = 0 
+    for i in range(1, len(vetorb)-1):
+        if not vetorb[i] == vetora[i]:
+            sc += 1
+            change(vetora, i, vetora.index(vetorb[i]))
+    return sc
+
 #comparar todos com todos e if (xi < xj) xi movimenta-se para xj // calcula distancia xj - xi
 def compara_vagalumes (vetor):
     for i in range(len(vetor)):
@@ -82,18 +97,7 @@ def compara_vagalumes (vetor):
                 if aleatorio:
                     vetor[i] = aleatorio[0]
 
-def change (vetor, posa, posb):
-    aux = vetor[posa]
-    vetor[posa] = vetor[posb]
-    vetor[posb] = aux
 
-def _swap(vetora, vetorb):
-    sc = 0 
-    for i in range(1, len(vetorb)-1):
-        if not vetorb[i] == vetora[i]:
-            sc += 1
-            change(vetora, i, vetora.index(vetorb[i]))
-    return sc
 
 
 def main():
