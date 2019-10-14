@@ -82,9 +82,23 @@ def compara_vagalumes (vetor):
                 if aleatorio:
                     vetor[i] = aleatorio[0]
 
+def change (vetor, posa, posb):
+    aux = vetor[posa]
+    vetor[posa] = vetor[posb]
+    vetor[posb] = aux
+
+def _swap(vetora, vetorb):
+    sc = 0 
+    for i in range(1, len(vetorb)-1):
+        if not vetorb[i] == vetora[i]:
+            sc += 1
+            change(vetora, i, vetora.index(vetorb[i]))
+    return sc
+
+
 def main():
     vagalumes = gera_vagalumes(n_vagalumes)
-
+    '''
     for v in vagalumes:
         print(v, "-- custo: ", retorna_custo(v))
     
@@ -92,7 +106,17 @@ def main():
         compara_vagalumes(vagalumes)
         print('-----------------------------', i+1, 'loop -----------------------------------')
         for v in vagalumes:
-            print(v, "-- custo: ", retorna_custo(v))
+            print(v, "-- custo: ", retorna_custo(v))'''
+    
+    print(vagalumes[0])
+    print(vagalumes[1])
+
+
+    _swap(vagalumes[0], vagalumes[1])
+
+    print(vagalumes[0])
+    print(vagalumes[1])
+        
  
 main()
 
