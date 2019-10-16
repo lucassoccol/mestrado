@@ -22,12 +22,9 @@ distancias = """
 aux = [x.split() for x in distancias.splitlines()[1:]]
 matriz = [[int(j) for j in vetor] for vetor in aux]
 
-n_vagalumes = 20
-vagalumes = []
-absorcao = 1.0
-
 v = ['b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
+#funcao obj e retorno de brilho
 def retorna_custo(sequencia):
     custo = 0
     for i in range(len(sequencia)-1):
@@ -80,7 +77,7 @@ def _swap(vetora, vetorb, q_swap):
             sc += 1         
             change(vetora, i, vetora.index(vetorb[i]))
 
-
+#faz a contagem de swaps
 def _swap_count(vetora, vetorb):
     sc = 0 
     for i in range(1, len(vetorb)-1):
@@ -92,7 +89,6 @@ def _swap_count(vetora, vetorb):
 def compara_vagalumes (vetor):
     for i in range(len(vetor)):
         for j in range(len(vetor)):
-
             aleatorio = vetor[i].copy()
             #fator de atratividade
             b = 1
@@ -107,20 +103,23 @@ def compara_vagalumes (vetor):
                     change(aleatorio, random.randrange(1, (len(v)), 1), random.randrange(1, (len(v)), 1))
                     if (retorna_custo(vetor[i]) > (retorna_custo(aleatorio))):
                         vetor[i] = aleatorio
-                
 
-
-def main():
-    vagalumes = gera_vagalumes(n_vagalumes)
-    
+#printa populacao 
+def _draw (vagalumes):
     for v in vagalumes:
-        print(v, "-- custo: ", retorna_custo(v))
+        print(v, "-- custo/brilho: ", retorna_custo(v))
+                
+def main():
+    n_vagalumes = int(input('Numero de vagalumes: '))
+    iteracoes   = int(input('Informe o numero de iteracoes: '))
+
+    vagalumes = gera_vagalumes(n_vagalumes)
+    _draw(vagalumes)
     
-    for i in range (200):
+    for i in range (iteracoes):
         compara_vagalumes(vagalumes)
         print('-----------------------------', i+1, 'loop -----------------------------------')
-        for v in vagalumes:
-            print(v, "-- custo: ", retorna_custo(v))    
+        _draw(vagalumes)   
 
  
 main()
