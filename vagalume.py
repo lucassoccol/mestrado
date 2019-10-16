@@ -22,7 +22,7 @@ distancias = """
 aux = [x.split() for x in distancias.splitlines()[1:]]
 matriz = [[int(j) for j in vetor] for vetor in aux]
 
-n_vagalumes = 5
+n_vagalumes = 20
 vagalumes = []
 absorcao = 1.0
 
@@ -73,14 +73,13 @@ def change (vetor, posa, posb):
     vetor[posb] = aux
 
 #faz os swap para igualar os vetores
-def _swap(vetora, vetorb, num_change):
+def _swap(vetora, vetorb, q_swap):
     sc = 0 
     for i in range(1, len(vetorb)-1):
-        if not vetorb[i] == vetora[i]:
+        if not vetorb[i] == vetora[i] and sc < q_swap:
             sc += 1         
             change(vetora, i, vetora.index(vetorb[i]))
-            if sc == num_change:
-                break
+
 
 def _swap_count(vetora, vetorb):
     sc = 0 
@@ -93,20 +92,22 @@ def _swap_count(vetora, vetorb):
 def compara_vagalumes (vetor):
     for i in range(len(vetor)):
         for j in range(len(vetor)):
-            #diferenca = abs(retorna_custo(vetor[j]) - retorna_custo(vetor[i]))
-            #atratividade = absorcao * diferenca
-            #atratividade = absorcao * _swap_count(vetor[i], vetor[j])
+
             aleatorio = vetor[i].copy()
-            if retorna_custo(vetor[i]) > retorna_custo(vetor[j]):
-                #gera aleatorio e mova i para j   
-                # colocar fator de atratividade aqui 
-                _swap(aleatorio, vetor[j], (random.randrange(1, _swap_count(vetor[i], vetor[j]), 1)))       
+            #fator de atratividade
+            b = 1
+            # calcula distancia
+            r =  _swap_count(vetor[i], vetor[j]) 
+            if (retorna_custo(vetor[i]) > (retorna_custo(vetor[j]) * b)):                
+                _swap(aleatorio, vetor[j], (random.randrange(0, r, 2)))       
                 if retorna_custo(aleatorio) <= retorna_custo(vetor[i]):
                     vetor[i] = aleatorio
             else:
-                change(aleatorio, random.randrange(1, len(v)-1, 1), random.randrange(1, len(v)-1, 1))
-                if retorna_custo(vetor[i]) > retorna_custo(aleatorio):
-                    vetor[i] = aleatorio
+                for i in range(len(v)):
+                    change(aleatorio, random.randrange(1, (len(v)), 1), random.randrange(1, (len(v)), 1))
+                    if (retorna_custo(vetor[i]) > (retorna_custo(aleatorio))):
+                        vetor[i] = aleatorio
+                
 
 
 def main():
@@ -115,7 +116,7 @@ def main():
     for v in vagalumes:
         print(v, "-- custo: ", retorna_custo(v))
     
-    for i in range (10):
+    for i in range (200):
         compara_vagalumes(vagalumes)
         print('-----------------------------', i+1, 'loop -----------------------------------')
         for v in vagalumes:
