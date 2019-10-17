@@ -24,12 +24,12 @@ matriz = [[int(j) for j in vetor] for vetor in aux]
 
 matriz_feromonios = np.ones((10, 10))
 
-iteracoes = 50
+iteracoes = 10
 alpha = 1
 betta = 1
 numero_formigas = 5
 taxa_evaporacao = 0.5
-formigas = 5
+formigas = 10
 
 
 def evaporar_feromonios():
@@ -59,11 +59,11 @@ def calcula_probabilidades(feromonios_totais, custos_totais):
 
 def roleta(probalidades, argsort):
     numero_aleatorio = np.random.rand()
-    print(f'numero aleatorio {numero_aleatorio}')
+    # print(f'numero aleatorio {numero_aleatorio}')
     soma_acumulada = np.cumsum(probalidades)
-    print(f'soma acumulada {soma_acumulada}')
+    # print(f'soma acumulada {soma_acumulada}')
     posicao = bisect(soma_acumulada, numero_aleatorio)
-    print(f'posicao {argsort[posicao]}')
+    # print(f'posicao {argsort[posicao]}')
     return argsort[posicao]
 
 
@@ -82,12 +82,14 @@ def atualiza_melhor_caminho(caminho, custo):
 
 
 for iteracao in range(iteracoes):
+    print()
     print(f'Iniciando iteração número {iteracao}')
     caminhos_por_formiga = []
     custos_por_formiga = []
     print(f'Evaporando feromônios com fator p de {taxa_evaporacao}')
     evaporar_feromonios()
     for formiga in range(formigas):
+        print()
         print(f'Iniciando percurso para formiga {formiga + 1}')
         cidades_visitar = ['b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
         cidade_inicial = 'a'
@@ -97,34 +99,30 @@ for iteracao in range(iteracoes):
         while cidades_visitar:
             distancias_totais = calcula_custos(cidade_atual, cidades_visitar)
             feromonios_totais = obtem_feromonios(cidade_atual, cidades_visitar)
-            print(distancias_totais)
-            print(feromonios_totais)
             probabilidades_cidades = calcula_probabilidades(np.array(list(feromonios_totais.values())),
                                                             np.array(list(distancias_totais.values())))
-            print(probabilidades_cidades)
             probabilidades_cidades_ordenado = np.sort(probabilidades_cidades)
-            print(probabilidades_cidades_ordenado)
             ordem_original = np.argsort(probabilidades_cidades)
-            print(ordem_original)
             cidade_escolhida_index = roleta(probabilidades_cidades_ordenado, ordem_original)
-            print(f'cidade escolhida: {list(distancias_totais)[cidade_escolhida_index]}')
             cidade_atual = list(distancias_totais)[cidade_escolhida_index]
             caminho.append(cidade_atual)
             custo += list(distancias_totais.values())[cidade_escolhida_index]
-            print(f'custo: {custo}')
+            print(f'cidade escolhida: {list(distancias_totais)[cidade_escolhida_index]}. Custo: {custo}')
             cidades_visitar.remove(cidade_atual)
         custo += matriz[cidades[caminho[-1]]][cidades[cidade_inicial]]
         caminho.append(cidade_inicial)
 
-        print(f'Caminho encontrado: {caminho}')
-        print(f'Custo: {custo}')
+        # print(f'Caminho encontrado: {caminho}')
+        # print(f'Custo: {custo}')
         caminhos_por_formiga.append(caminho)
         custos_por_formiga.append(custo)
         atualiza_melhor_caminho(caminho, custo)
 
+    print()
     for caminho, custo in zip(caminhos_por_formiga, custos_por_formiga):
         print(f"caminho {caminho} e custo {custo}")
         percorrer_caminho(caminho, custo)
 
-    print(matriz_feromonios)
+    # print(matriz_feromonios)
+print()
 print(melhor_caminho)
