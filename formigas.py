@@ -1,35 +1,25 @@
 import numpy as np
+import math
 from bisect import bisect
 
-cidades = {'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6, 'h': 7, 'i': 8, 'j': 9}
+# Caso queira dar nomes para as cidades (adaptar uso da matriz depois)
+# cidades = {'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6, 'h': 7, 'i': 8, 'j': 9}
 
-melhor_caminho = {'distancia': 100000, 'caminho': []}
+melhor_caminho = {'distancia': math.inf, 'caminho': []}
 
+with open('p01_d.txt') as f:
+    w, h = [int(x) for x in next(f).split()]
+    matriz = [[int(x) for x in line.split()] for line in f]
 
-distancias_totais = """
-0   4   5   6   11  13  20  2   60  16  
-4   0   3   6   7   11  34  23  6   90
-5   3   0   3   8   8   40  17  22  21
-6   6   3   0   11  9   33  2   1   15
-11  7   8   11  0   4   88  77  93  11
-13  11  8   9   4   0   12  14  22  1
-20  34  40  33  88  12  0   81  20  17
-2   23  17  2   77  14  81  0   27  54
-60  6   22  1   93  22  20  27  0   99
-16  90  21  15  11  1   17  54  99  0
-"""
+cidades = list(range(0, w))
 np.set_printoptions(precision=5, linewidth=100)
-aux = [x.split() for x in distancias_totais.splitlines()[1:]]
-matriz = [[int(j) for j in vetor] for vetor in aux]
+matriz_feromonios = np.ones((w, w))
 
-matriz_feromonios = np.ones((10, 10))
-
-iteracoes = 10
-alpha = 1
-betta = 1
-numero_formigas = 5
-taxa_evaporacao = 0.5
-formigas = 10
+iteracoes = int(input('Numero de iterações (padrão 10): ') or "10")
+alpha = int(input('Valor do Alpha(padrão 1): ') or "1")
+betta = int(input('Valor do Betta(padrão 1): ') or "1")
+numero_formigas = int(input('Numero de Formigas (padrão 5): ') or "5")
+taxa_evaporacao = float(input('Taxa de Evaporação (padrão 0.5): ') or "0.5")
 
 
 def evaporar_feromonios():
@@ -40,14 +30,14 @@ def evaporar_feromonios():
 def calcula_custos(cidade_atual, cidades_para_visitar):
     relacao_distancias = {}
     for cidade_destino in cidades_para_visitar:
-        relacao_distancias[cidade_destino] = matriz[cidades[cidade_atual]][cidades[cidade_destino]]
+        relacao_distancias[cidade_destino] = matriz[cidade_atual][cidade_destino]
     return relacao_distancias
 
 
 def obtem_feromonios(cidade_atual, cidades_para_visitar):
     relacao_feromonios = {}
     for cidade_destino in cidades_para_visitar:
-        relacao_feromonios[cidade_destino] = matriz_feromonios[cidades[cidade_atual]][cidades[cidade_destino]]
+        relacao_feromonios[cidade_destino] = matriz_feromonios[cidade_atual][cidade_destino]
     return relacao_feromonios
 
 
@@ -57,10 +47,10 @@ def calcula_probabilidades(feromonios_totais, custos_totais):
     return ((feromonios_totais ** alpha) * (n ** betta)) / total
 
 
-def roleta(probalidades, argsort):
+def roleta(probabilidades, argsort):
     numero_aleatorio = np.random.rand()
     # print(f'numero aleatorio {numero_aleatorio}')
-    soma_acumulada = np.cumsum(probalidades)
+    soma_acumulada = np.cumsum(probabilidades)
     # print(f'soma acumulada {soma_acumulada}')
     posicao = bisect(soma_acumulada, numero_aleatorio)
     # print(f'posicao {argsort[posicao]}')
@@ -70,8 +60,8 @@ def roleta(probalidades, argsort):
 def percorrer_caminho(caminho, custo):
     global matriz_feromonios
     for i in range(len(caminho) - 1):
-        matriz_feromonios[cidades[caminho[i]]][cidades[caminho[i+1]]] += 1/custo
-        matriz_feromonios[cidades[caminho[i+1]]][cidades[caminho[i]]] += 1/custo
+        matriz_feromonios[caminho[i]][caminho[i+1]] += 1/custo
+        matriz_feromonios[caminho[i+1]][caminho[i]] += 1/custo
 
 
 def atualiza_melhor_caminho(caminho, custo):
@@ -83,16 +73,16 @@ def atualiza_melhor_caminho(caminho, custo):
 
 for iteracao in range(iteracoes):
     print()
-    print(f'Iniciando iteração número {iteracao}')
+    print(f'Iniciando iteração número {iteracao+1}')
     caminhos_por_formiga = []
     custos_por_formiga = []
     print(f'Evaporando feromônios com fator p de {taxa_evaporacao}')
     evaporar_feromonios()
-    for formiga in range(formigas):
+    for formiga in range(numero_formigas):
         print()
         print(f'Iniciando percurso para formiga {formiga + 1}')
-        cidades_visitar = ['b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-        cidade_inicial = 'a'
+        cidades_visitar = cidades[1:]
+        cidade_inicial = 0
         cidade_atual = cidade_inicial
         caminho = [cidade_inicial]
         custo = 0
