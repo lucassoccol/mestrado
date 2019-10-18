@@ -1,6 +1,9 @@
 from itertools import permutations
 import random
 import math
+import matplotlib.pyplot as plt
+import numpy
+
 
 cidades = {'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6, 'h': 7, 'i': 8, 'j': 9}
 
@@ -99,19 +102,38 @@ def compara_vagalumes (vetor):
                 if retorna_custo(aleatorio) <= retorna_custo(vetor[i]):
                     vetor[i] = aleatorio
             else:
-                for i in range(len(v)):
-                    change(aleatorio, random.randrange(1, (len(v)), 1), random.randrange(1, (len(v)), 1))
-                    if (retorna_custo(vetor[i]) > (retorna_custo(aleatorio))):
-                        vetor[i] = aleatorio
+                #for k in range(len(v)):
+                change(aleatorio, random.randrange(1, (len(v)), 1), random.randrange(1, (len(v)), 1))
+                    #if (retorna_custo(vetor[i]) > (retorna_custo(aleatorio))):
+                vetor[i] = aleatorio
 
 #printa populacao 
 def _draw (vagalumes):
     for v in vagalumes:
         print(v, "-- custo/brilho: ", retorna_custo(v))
+
+#plota as informacoes
+def plota(iteracoes, cust_vetor, n_vagalumes):
+
+    x = range(0, iteracoes)
+    y = cust_vetor
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    
+    plt.xticks(range(0, iteracoes, 5))
+    plt.plot(x,y)
+    for i,j in zip(x,y):
+        ax.annotate(str(j),xy=(i,j))
+    plt.title(str(n_vagalumes)+ ' vagalumes.')
+    plt.show()    
+    
+
                 
 def main():
     n_vagalumes = int(input('Numero de vagalumes: '))
     iteracoes   = int(input('Informe o numero de iteracoes: '))
+    cust_vetor = []
 
     vagalumes = gera_vagalumes(n_vagalumes)
     _draw(vagalumes)
@@ -120,6 +142,14 @@ def main():
         compara_vagalumes(vagalumes)
         print('-----------------------------', i+1, 'loop -----------------------------------')
         _draw(vagalumes)   
+        cust_vetor.append(retorna_custo(vagalumes[min_vag(vagalumes)]))
+        print(retorna_custo(vagalumes[min_vag(vagalumes)]))
+    
+    plota(iteracoes, cust_vetor, n_vagalumes)
+
+    
+    
+    
 
  
 main()
