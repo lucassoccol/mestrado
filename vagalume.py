@@ -4,7 +4,7 @@ import math
 import matplotlib.pyplot as plt
 import numpy
 
-
+'''
 cidades = {'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6, 'h': 7, 'i': 8, 'j': 9}
 
 melhor_caminho = {'distancia': 100000, 'caminho': []}
@@ -26,6 +26,17 @@ aux = [x.split() for x in distancias.splitlines()[1:]]
 matriz = [[int(j) for j in vetor] for vetor in aux]
 
 v = ['b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+'''
+
+with open('data\\p01_d.txt') as f:
+    w, h = [int(x) for x in next(f).split()]
+    matriz = [[int(x) for x in line.split()] for line in f]
+
+cidades = list(range(0, w))
+
+v = []
+for z in range (1, len(cidades)):
+    v.append(cidades[z])
 
 #funcao obj e retorno de brilho
 def retorna_custo(sequencia):
@@ -38,8 +49,8 @@ def retorna_custo(sequencia):
 def gen_vag ():
     random.shuffle(v)
     path_list = list(v)
-    path_list.insert(0, 'a')
-    path_list.append('a')
+    path_list.insert(0, 0)
+    path_list.append(0)
     return path_list
 
 #gere a populacao inicial de vagalumes aleatoriamente
@@ -109,8 +120,8 @@ def compara_vagalumes (vetor):
 
 #printa populacao 
 def _draw (vagalumes):
-    for v in vagalumes:
-        print(v, "-- custo/brilho: ", retorna_custo(v))
+    for vag in vagalumes:
+        print(vag, "-- custo/brilho: ", retorna_custo(vag))
 
 #plota as informacoes
 def plota(iteracoes, cust_vetor, n_vagalumes):
@@ -130,25 +141,31 @@ def plota(iteracoes, cust_vetor, n_vagalumes):
     
 
                 
-def main():
-    n_vagalumes = int(input('Numero de vagalumes: '))
-    iteracoes   = int(input('Informe o numero de iteracoes: '))
+def main(populacao, iteracoes):
+    n_vagalumes = populacao
+    iteracoes   = iteracoes
     cust_vetor = []
 
+    #print(cidades)
+    #print(v)
+
     vagalumes = gera_vagalumes(n_vagalumes)
-    _draw(vagalumes)
+
+    #print(vagalumes)
+    #_draw(vagalumes)
     
     for i in range (iteracoes):
         compara_vagalumes(vagalumes)
-        print('-----------------------------', i+1, 'loop -----------------------------------')
-        _draw(vagalumes)   
+        #print('-----------------------------', i+1, 'loop -----------------------------------')
+        #_draw(vagalumes)   
         cust_vetor.append(retorna_custo(vagalumes[min_vag(vagalumes)]))
-        print(retorna_custo(vagalumes[min_vag(vagalumes)]))
+        #print(retorna_custo(vagalumes[min_vag(vagalumes)]))
     
-    plota(iteracoes, cust_vetor, n_vagalumes)
+    #plota(iteracoes, cust_vetor, n_vagalumes)
+
+    return cust_vetor
 
  
-main()
 
 
 
