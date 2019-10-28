@@ -31,19 +31,17 @@ def plota(iteracoes, populacao, custo_formigas, custo_vagalumes):
 
 def main():
     populacao = int(input('Informe a quantidade de populacao: '))
-    iteracoes   = int(input('Informe a quantidade de iteracoes: '))
+    iteracoes = int(input('Informe a quantidade de iteracoes: '))
 
     custo_vagalumes = []
     custo_vagalumes = vagalume.main(populacao, iteracoes)
     print(custo_vagalumes)
     
-
+    
     custo_formigas = []
     custo_formigas = formigas.main(populacao, iteracoes)
     print(custo_formigas)
 
     plota(iteracoes, populacao, custo_formigas, custo_vagalumes)
-
-
 
 main ()
