@@ -28,11 +28,9 @@ def plota(iteracoes, populacao, custo_formigas, custo_vagalumes):
     plt.title(str(populacao)+ ' populacao x '+ str(iteracoes) +' iteracoes.')
     plt.show()
 
-
-def main():
-    populacao = int(input('Informe a quantidade de populacao: '))
-    iteracoes = int(input('Informe a quantidade de iteracoes: '))
-
+def teste_more_pop(cidades):
+    populacao = 100
+    iteracoes = 10
     custo_vagalumes = []
     custo_vagalumes = vagalume.main(populacao, iteracoes)
     print(custo_vagalumes)
@@ -44,4 +42,69 @@ def main():
 
     plota(iteracoes, populacao, custo_formigas, custo_vagalumes)
 
+def teste_more_iter(cidades):
+    populacao = 10
+    iteracoes = 100
+    custo_vagalumes = []
+    custo_vagalumes = vagalume.main(populacao, iteracoes)
+    print(custo_vagalumes)
+    
+    
+    custo_formigas = []
+    custo_formigas = formigas.main(populacao, iteracoes)
+    print(custo_formigas)
+
+    plota(iteracoes, populacao, custo_formigas, custo_vagalumes)
+
+def teste_equal_50(cidades):
+    populacao = 50
+    iteracoes = 50
+    custo_vagalumes = []
+    custo_vagalumes = vagalume.main(populacao, iteracoes)
+    print(custo_vagalumes)
+    
+    
+    custo_formigas = []
+    custo_formigas = formigas.main(populacao, iteracoes)
+    print(custo_formigas)
+
+    plota(iteracoes, populacao, custo_formigas, custo_vagalumes) 
+
+def teste_equal_100(cidades):
+    populacao = 100
+    iteracoes = 100
+    custo_vagalumes = []
+    custo_vagalumes = vagalume.main(populacao, iteracoes)
+    print(custo_vagalumes)
+    
+    
+    custo_formigas = []
+    custo_formigas = formigas.main(populacao, iteracoes)
+    print(custo_formigas)
+
+    plota(iteracoes, populacao, custo_formigas, custo_vagalumes)    
+
+def teste_city_15():
+    teste_more_pop(15)
+    teste_more_iter(15)
+    teste_equal_50(15)
+    teste_equal_100(15)
+
+def teste_city_26():
+    teste_more_pop(26)
+    teste_more_iter(26)
+    teste_equal_50(26)
+    teste_equal_100(26)
+
+def teste_city_42():
+    teste_more_pop(42)
+    teste_more_iter(42)
+    teste_equal_50(42)
+    teste_equal_100(42)
+
+def main():
+    #teste_city_15()
+    teste_city_26()
+    #teste_city_42
+    
 main ()

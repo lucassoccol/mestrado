@@ -7,7 +7,7 @@ from bisect import bisect
 
 melhor_caminho = {'distancia': math.inf, 'caminho': []}
 
-with open('data//p01_d.txt') as f:
+with open('data\\city48.txt') as f:
     w, h = [int(x) for x in next(f).split()]
     matriz = [[int(x) for x in line.split()] for line in f]
 

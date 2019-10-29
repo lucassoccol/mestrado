@@ -4,31 +4,7 @@ import math
 import matplotlib.pyplot as plt
 import numpy
 
-'''
-cidades = {'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6, 'h': 7, 'i': 8, 'j': 9}
-
-melhor_caminho = {'distancia': 100000, 'caminho': []}
-
-distancias = """
-0   4   5   6   11  13  20  2   60  16  20
-4   0   3   6   7   11  34  23  6   90  10 
-5   3   0   3   8   8   40  17  22  21  5
-6   6   3   0   11  9   33  2   1   15  74
-11  7   8   11  0   4   88  77  93  11  14 
-13  11  8   9   4   0   12  14  22  1   36
-20  34  40  33  88  12  0   81  20  17  20
-2   23  17  2   77  14  81  0   27  54  10
-60  6   22  1   93  22  20  27  0   99  55 
-16  90  21  15  11  1   17  54  99  0   11
-"""
-
-aux = [x.split() for x in distancias.splitlines()[1:]]
-matriz = [[int(j) for j in vetor] for vetor in aux]
-
-v = ['b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-'''
-
-with open('data\\p01_d.txt') as f:
+with open('data//city48.txt') as f:
     w, h = [int(x) for x in next(f).split()]
     matriz = [[int(x) for x in line.split()] for line in f]
 
