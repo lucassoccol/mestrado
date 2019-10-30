@@ -2,6 +2,7 @@ import vagalume
 import matplotlib.pyplot as plt
 import formigas
 import numpy as np
+import time
 
 
 #plota as informacoes
@@ -28,83 +29,63 @@ def plota(iteracoes, populacao, custo_formigas, custo_vagalumes):
     plt.title(str(populacao)+ ' populacao x '+ str(iteracoes) +' iteracoes.')
     plt.show()
 
+def exec_test_vagalume(populacao, iteracoes):
+    custo_vagalumes = []
+    avg_vagalume = 0
+    start_time_vag = time.time()
+    custo_vagalumes = vagalume.main(populacao, iteracoes)
+    
+    print("--- %s tempo de execucao vagalume em segundos ---" % (time.time() - start_time_vag))
+    print('custo dos vagalumes: ', custo_vagalumes)
+    avg_vagalume = sum(custo_vagalumes) / float(len(custo_vagalumes))
+    print(avg_vagalume)
+    print('custo medio vagalumes: ', avg_vagalume)
+    return custo_vagalumes
+
+def exec_test_formiga(populacao, iteracoes):
+    custo_formigas = []
+    avg_formiga = 0
+    start_time_form = time.time()
+
+    custo_formigas = formigas.main(populacao, iteracoes)
+    print("--- %s tempo de execucao formigas em segundos ---" % (time.time() - start_time_form))
+    print('custo das formigas: ', custo_formigas)
+    avg_formiga = sum(custo_formigas) / float(len(custo_formigas))
+    print('custo medio formigas: ', avg_formiga)
+    return custo_formigas 
+    
+def exec_test(populacao, iteracoes):
+    plota (iteracoes, populacao, exec_test_vagalume(populacao, iteracoes) , exec_test_formiga(populacao, iteracoes))
+
 def teste_more_pop(cidades):
     populacao = 100
     iteracoes = 10
-    custo_vagalumes = []
-    custo_vagalumes = vagalume.main(populacao, iteracoes)
-    print(custo_vagalumes)
-    
-    
-    custo_formigas = []
-    custo_formigas = formigas.main(populacao, iteracoes)
-    print(custo_formigas)
-
-    plota(iteracoes, populacao, custo_formigas, custo_vagalumes)
+    exec_test(populacao, iteracoes)
 
 def teste_more_iter(cidades):
     populacao = 10
     iteracoes = 100
-    custo_vagalumes = []
-    custo_vagalumes = vagalume.main(populacao, iteracoes)
-    print(custo_vagalumes)
-    
-    
-    custo_formigas = []
-    custo_formigas = formigas.main(populacao, iteracoes)
-    print(custo_formigas)
-
-    plota(iteracoes, populacao, custo_formigas, custo_vagalumes)
+    exec_test(populacao, iteracoes)
 
 def teste_equal_50(cidades):
     populacao = 50
     iteracoes = 50
-    custo_vagalumes = []
-    custo_vagalumes = vagalume.main(populacao, iteracoes)
-    print(custo_vagalumes)
-    
-    
-    custo_formigas = []
-    custo_formigas = formigas.main(populacao, iteracoes)
-    print(custo_formigas)
-
-    plota(iteracoes, populacao, custo_formigas, custo_vagalumes) 
+    exec_test(populacao, iteracoes)
 
 def teste_equal_100(cidades):
     populacao = 100
     iteracoes = 100
-    custo_vagalumes = []
-    custo_vagalumes = vagalume.main(populacao, iteracoes)
-    print(custo_vagalumes)
-    
-    
-    custo_formigas = []
-    custo_formigas = formigas.main(populacao, iteracoes)
-    print(custo_formigas)
+    exec_test(populacao, iteracoes)  
 
-    plota(iteracoes, populacao, custo_formigas, custo_vagalumes)    
-
-def teste_city_15():
+def teste_city():
     teste_more_pop(15)
     teste_more_iter(15)
     teste_equal_50(15)
     teste_equal_100(15)
 
-def teste_city_26():
-    teste_more_pop(26)
-    teste_more_iter(26)
-    teste_equal_50(26)
-    teste_equal_100(26)
 
-def teste_city_42():
-    teste_more_pop(42)
-    teste_more_iter(42)
-    teste_equal_50(42)
-    teste_equal_100(42)
 
 def main():
-    #teste_city_15()
-    teste_city_26()
-    #teste_city_42
+    teste_city()
     
 main ()
