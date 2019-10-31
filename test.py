@@ -40,6 +40,7 @@ def exec_test_vagalume(populacao, iteracoes):
     avg_vagalume = sum(custo_vagalumes) / float(len(custo_vagalumes))
     print(avg_vagalume)
     print('custo medio vagalumes: ', avg_vagalume)
+    print()
     return custo_vagalumes
 
 def exec_test_formiga(populacao, iteracoes):
@@ -52,6 +53,7 @@ def exec_test_formiga(populacao, iteracoes):
     print('custo das formigas: ', custo_formigas)
     avg_formiga = sum(custo_formigas) / float(len(custo_formigas))
     print('custo medio formigas: ', avg_formiga)
+    print()
     return custo_formigas 
     
 def exec_test(populacao, iteracoes):
