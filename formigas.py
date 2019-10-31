@@ -7,6 +7,7 @@ from bisect import bisect
 
 melhor_caminho = {'distancia': math.inf, 'caminho': []}
 
+
 with open('data//city48.txt') as f:
     w, h = [int(x) for x in next(f).split()]
     matriz = [[int(x) for x in line.split()] for line in f]
@@ -14,6 +15,7 @@ with open('data//city48.txt') as f:
 cidades = list(range(0, w))
 np.set_printoptions(precision=5, linewidth=100)
 matriz_feromonios = np.ones((w, w))
+
 
 alpha = 1 #int(input('Valor do Alpha(padrão 1): ') or "1")
 betta = 1 #int(input('Valor do Betta(padrão 1): ') or "1")
@@ -47,6 +49,7 @@ def calcula_probabilidades(feromonios_totais, custos_totais):
 
 def roleta(probabilidades, argsort):
     numero_aleatorio = np.random.rand()
+
     soma_acumulada = np.cumsum(probabilidades)
     posicao = bisect(soma_acumulada, numero_aleatorio)
     return argsort[posicao]
@@ -64,6 +67,7 @@ def atualiza_melhor_caminho(caminho, custo):
     if custo < melhor_caminho['distancia']:
         melhor_caminho['distancia'] = custo
         melhor_caminho['caminho'] = caminho
+
 
 def main (numero_formigas, iteracoes):
     custos = []
