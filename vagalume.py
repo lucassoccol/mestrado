@@ -83,16 +83,25 @@ def compara_vagalumes (vetor):
             #fator de atratividade
             b = 1
             # calcula distancia
-            r =  _swap_count(vetor[i], vetor[j]) 
-            if (retorna_custo(vetor[i]) > (retorna_custo(vetor[j]) * b)):                
-                _swap(aleatorio, vetor[j], (random.randrange(0, r, 2)))       
-                if retorna_custo(aleatorio) <= retorna_custo(vetor[i]):
-                    vetor[i] = aleatorio
+            r =  _swap_count(vetor[i], vetor[j])
+
+            if b > 0:
+                prox_vag = retorna_custo(vetor[j]) * b
             else:
-                #for k in range(len(v)):
+                prox_vag = retorna_custo(vetor[j])
+
+            if (retorna_custo(vetor[i]) > prox_vag):
+                if r > 0:
+                    _swap(aleatorio, vetor[j], (random.randrange(0, r, 2)))       
+                    if retorna_custo(aleatorio) <= retorna_custo(vetor[i]):
+                        vetor[i] = aleatorio
+            else:
+                    #for k in range(len(v)):
                 change(aleatorio, random.randrange(1, (len(v)), 1), random.randrange(1, (len(v)), 1))
-                    #if (retorna_custo(vetor[i]) > (retorna_custo(aleatorio))):
+                        #if (retorna_custo(vetor[i]) > (retorna_custo(aleatorio))):
                 vetor[i] = aleatorio
+
+
 
 #printa populacao 
 def _draw (vagalumes):
@@ -140,6 +149,10 @@ def main(populacao, iteracoes):
     #plota(iteracoes, cust_vetor, n_vagalumes)
 
     return cust_vetor
+
+
+
+
 
  
 
