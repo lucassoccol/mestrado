@@ -81,7 +81,7 @@ def compara_vagalumes (vetor):
         for j in range(len(vetor)):
             aleatorio = vetor[i].copy()
             #fator de atratividade
-            b = 1
+            b = 0.2
             # calcula distancia
             r =  _swap_count(vetor[i], vetor[j])
 

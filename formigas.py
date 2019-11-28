@@ -17,8 +17,8 @@ np.set_printoptions(precision=5, linewidth=100)
 matriz_feromonios = np.ones((w, w))
 
 
-alpha = 1 #int(input('Valor do Alpha(padrão 1): ') or "1")
-betta = 1 #int(input('Valor do Betta(padrão 1): ') or "1")
+alpha = 0.8 #int(input('Valor do Alpha(padrão 1): ') or "1")
+betta = 0.2 #int(input('Valor do Betta(padrão 1): ') or "1")
 taxa_evaporacao = 0.8 #float(input('Taxa de Evaporação (padrão 0.5): ') or "0.5")
 
 
